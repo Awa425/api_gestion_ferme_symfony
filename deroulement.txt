@@ -1,0 +1,55 @@
+//Creation du project
+    composer create-projcet symfony/skeleton 'nom projet'
+// Telechager toutes les composer d'annotation
+    composer require doctrine/annotations
+// Telechager toutes les composer d'annotation
+    composer require symfony/maker-bundle --dev
+//faire la gestion de l'entite manager et tous ce qui permet d'acceder au donnees
+    composer require symfony/orm-pack
+//configuration de la base de donnee
+    DATABASE_URL="mysql://root:@127.0.0.1:3307/live_api?charset=utf8mb4"
+//Pour pouvoir executer cette requete
+    composer require symfony/security-bundle
+//Creer la base de données
+    php bin/console doctrine:database:create
+//iNSTALLATION postman
+    sudo snap install postman
+//api-platform sait si une classe est une ressource ou pas
+    use ApiPlatform\Core\Annotation\ApiResource;
+//Installation api-platform
+composer require api
+//Authentification
+    composer require lexik/jwt-authentication-bundle
+//Installation du bundle token
+    symfony console lexik:jwt:generate-keypair
+//Générer les clés(public et privée)
+    mkdir -p config/jwt
+    //ma cles c'est awadiop
+    openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+    openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
+//creation Fixtures
+    composer require orm-fixtures --dev
+    symfony console make:fixtures
+//Apres avoir terminer sur les fixtures, on met:
+    symfony console d:f:l --append
+
+// API platform pour l'utiliser
+    composer require api
+// pour pouvoir considerer une entite comme une ressource, ajouter juste
+    [ApiResource()]
+
+//*************** Mailer **********
+1. Ajout des proprietes dans User
+    *token
+    *isEnable
+    *expireAt
+2. Ajout methode generate le token dans user
+3. Creation class Mailer dans Service
+4. Creation du controller EmailValider (methode invok)
+5.Modifier le dataPersister
+6. On cree le template
+
+//Mise en place du Json Web Token (JWT)dans Configuration fichier lexik_jwt_authentication.yaml
+    token_ttl: 3600(duree du vie du token)
+//et dans .env:
+JWT_PASSPHRASE=awadiop(cles privee)
