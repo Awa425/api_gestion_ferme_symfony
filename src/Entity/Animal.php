@@ -27,6 +27,15 @@ class Animal
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'animals')]
+    private ?Ferme $ferme = null;
+
+    #[ORM\ManyToOne(inversedBy: 'animals')]
+    private ?Fermier $fermier = null;
+
+    #[ORM\ManyToOne(inversedBy: 'animal')]
+    private ?Veterinaire $veterinaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +85,42 @@ class Animal
     public function setDateAt(?\DateTimeImmutable $dateAt): self
     {
         $this->dateAt = $dateAt;
+
+        return $this;
+    }
+
+    public function getFerme(): ?Ferme
+    {
+        return $this->ferme;
+    }
+
+    public function setFerme(?Ferme $ferme): self
+    {
+        $this->ferme = $ferme;
+
+        return $this;
+    }
+
+    public function getFermier(): ?Fermier
+    {
+        return $this->fermier;
+    }
+
+    public function setFermier(?Fermier $fermier): self
+    {
+        $this->fermier = $fermier;
+
+        return $this;
+    }
+
+    public function getVeterinaire(): ?Veterinaire
+    {
+        return $this->veterinaire;
+    }
+
+    public function setVeterinaire(?Veterinaire $veterinaire): self
+    {
+        $this->veterinaire = $veterinaire;
 
         return $this;
     }

@@ -17,10 +17,6 @@
 
 `DATABASE_URL="mysql://root:@127.0.0.1:3306/live_api?charset=utf8mb4"`
 
-# Creer la base de données
-
-`php bin/console doctrine:database:create`
-
 # Installation des dependances du token:
 
 `composer require lexik/jwt-authentication-bundle`
