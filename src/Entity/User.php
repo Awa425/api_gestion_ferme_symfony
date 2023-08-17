@@ -3,24 +3,38 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
 #[ORM\DiscriminatorMap(["fermier" => "Fermier", "employe" => "Employe", "veterinaire" => "Veterinaire"])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put()
+    ]
+)]
 class User extends Personne implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['read_simple', 'read_detail', 'test'])]
     private ?string $login = null;
 
     #[ORM\Column]
+
     private array $roles = [];
 
     /**

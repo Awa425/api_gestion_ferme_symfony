@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
@@ -14,30 +15,38 @@ class Personne
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read_simple'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_simple', 'read_detail'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_simple', 'read_detail'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_simple', 'read_detail'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_detail'])]
     private ?string $pays = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_simple', 'read_detail'])]
     private ?string $telephone = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $isEtat = null;
+    #[Groups(['read_detail'])]
+    private ?bool $isEtat = true;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['read_simple', 'read_detail'])]
     private ?string $matricule = null;
 
     public function getId(): ?int
@@ -113,6 +122,7 @@ class Personne
     public function setIsEtat(?bool $isEtat): self
     {
         $this->isEtat = $isEtat;
+
 
         return $this;
     }

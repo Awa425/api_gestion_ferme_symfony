@@ -39,6 +39,11 @@
 `php bin/console m:m et php bin/console d:m:m`
 `symfony console make:entity name_entity`
 
+# Pour utiliser les event Subscriber, dans service.yaml
+
+App\EventSubscriber\UserSubscriber:
+tags: - { name: doctrine.event_listener, event: prePersist }
+
 # Creation d’un Controller:
 
 `php bin/console make:controller Api`
@@ -73,7 +78,7 @@
 
 `composer require security`
 
-- ############################ REALISATION DE API AVEC API PLATEFORM ############################
+-###################### REALISATION DE API AVEC API PLATEFORM ###############
 
 # Présentation: `API Platform est un framework web utilisé pour générer des APIREST et GraphQL, se basant sur le patron de conception MVC. La partie serveur du framework est écrite en PHP et basée sur le framework Symfony.`
 
@@ -88,6 +93,24 @@
 # Configuration des entités:
 
 `Ajouter l’annotation` #[ApiResource()] `sur chaque entité gérée par Api PlatForm.`
+
+# Pour specifier les operation crud
+
+#[ApiResource(
+operations: [
+new Get(),
+new GetCollection(),
+new Post(),
+new Put()
+]
+)]
+
+# Normalisation et denormalisation
+
+# Dans api/config/packages/framework.yaml
+
+` framework:`
+`serializer: { enable_annotations: true }`
 
 # Probleme de cache:
 

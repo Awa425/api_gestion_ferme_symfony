@@ -3,33 +3,77 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\FermeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Link;
 
 #[ORM\Entity(repositoryClass: FermeRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put()
+    ],
+)]
+
+#[ApiResource(
+    uriTemplate: '/animals/{id}/ferme',
+    uriVariables: [
+        'id' => new Link(
+            fromClass: Animal::class,
+            fromProperty: 'ferme'
+        ),
+    ],
+    operations: [
+        new Get(),
+    ]
+)]
+// #[ApiResource(
+//     uriTemplate: '/employes/{id}/ferme',
+//     uriVariables: [
+//         'id' => new Link(
+//             fromClass: Employe::class,
+//             fromProperty: 'ferme'
+//         ),
+//     ],
+//     operations: [
+//         new Get(),
+//     ]
+// )]
 class Ferme
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    // #[Groups(['readAnimal'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('readAnimal')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    // #[Groups(['readAnimal'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    // #[Groups(['read_detail'])]
     private ?string $telephone = null;
 
     #[ORM\Column(nullable: true)]
+    // #[Groups(['readAnimal'])]
     private ?bool $isEtat = null;
 
     #[ORM\Column(nullable: true)]
+    // #[Groups(['readAnimal'])]
     private ?\DateTimeImmutable $dataAt = null;
 
     #[ORM\OneToMany(mappedBy: 'ferme', targetEntity: FermeFermier::class)]
